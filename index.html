@@ -54,7 +54,7 @@
     function fetchWeather()
     {
         pname=place.value;
-        let url=`https://api.openweathermap.org/data/2.5/weather?q=${pname}&appid=e4f00d2c9aa27e123a290534ed8c9805`
+        let url=`http://api.openweathermap.org/data/2.5/weather?q=${pname}&appid=e4f00d2c9aa27e123a290534ed8c9805`
         fetch(url).then(res=>res.json()).then(data=>display(data))
             // temp.innerHTML=data.main.temp
             // wind.innerHTML=data.wind.speed
@@ -75,7 +75,7 @@
          let   cl=data.clouds.all
          let   wthr=data.weather[0].main
 
-         let icon_url=`https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+         let icon_url=`http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
          
          let humi=data.main.humidity
          let rise=data.sys.sunrise
