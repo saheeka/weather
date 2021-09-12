@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/da1cf35165.js" crossorigin="anonymous"></script>
+<style>
+    .card{
+        background-color: transparent;
+        font-size: 30px;
+        height: 12rem;
+        text-align: center;
+        border:none;
+        color: rgb(39, 39, 10);
+    }
+    body{
+      background-repeat: no-repeat;
+      background-position:  center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    
+    table{
+      margin-left: 40px;
+     
+    }
+    @media screen and (max-width: 768px){
+      #place{
+        margin-left: 40px;
+      }
+    }
+</style>
+</head>
+<body style="background-image: url(red.jpg);">
+    <h1 style="font-family: monotype corsiva; text-align: center; 
+    margin-top: 20px; font-size: 50px; color: rgb(7, 2, 68);">Weather map</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-m-6 col-sm-12 col-s-12"></div>
+        <div class="col-lg-4 col-m-6 col-sm-12 col-s-12" id="result">
+          <input type="text" id="place">
+          <button class="btn btn-primary" onclick="fetchWeather()">Find</button>
+        </div>
+        <div class="col-lg-4 col-m-6 col-sm-12 col-s-12"></div>
+      </div>
+    </div>
+</body>
+<script>
+    function fetchWeather()
+    {
+        pname=place.value;
+        let url=`http://api.openweathermap.org/data/2.5/weather?q=${pname}&appid=e4f00d2c9aa27e123a290534ed8c9805`
+        fetch(url).then(res=>res.json()).then(data=>display(data))
+            // temp.innerHTML=data.main.temp
+            // wind.innerHTML=data.wind.speed
+            // vis.innerHTML=data.visibility
+            // pressure.innerHTML=data.main.pressure
+            // cl.innerHTML=data.clouds.all
+            // wthr.innerHTML=data.weather[0].main
+       
+    }
+    function display(data)
+    { pname=place.value;
+      console.log(pname);
+        let faren=data.main.temp
+        let temp=faren-273.15;
+        let  wind=data.wind.speed
+            
+        let  pressure=data.main.pressure
+         let   cl=data.clouds.all
+         let   wthr=data.weather[0].main
+
+         let icon_url=`https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+         
+         let humi=data.main.humidity
+         let rise=data.sys.sunrise
+         let country=data.sys.country
+         let sunrise = new Date(rise*1000).toLocaleTimeString();
+         let set=data.sys.sunset
+         let sunset = new Date(set*1000).toLocaleTimeString();
+         console.log(data);
+      let html_data=`<div class="card  bg-dark" style="width: 22rem; height:3rem ">
+        <h1 style="font-family:monotype corsiva; color:white"> ${pname} , ${country}</h1>
+  <div class="card-body ">
+    <table ><tr><td>
+    <img src="${icon_url}" style="width:140px;height:140px"></td><td>
+    <h1 class="card-title" style="font-family:monotype corsiva; ">${temp.toFixed()} &#8451</h1>
+    <p> <h4 style="font-family:monotype corsiva;"> ${wthr}</h4></p>
+    </td></tr>
+    </table>
+  
+    <p style="font-family:monotype corsiva;">Wind : ${wind} m/s</p>
+    <p style=" font-family:monotype corsiva; ">Pressure : ${pressure} hpa</p>
+    <p style="font-family:monotype corsiva;"> Humidity : ${humi} %</p>
+  <p style="font-family:monotype corsiva;">Sunrise : ${sunrise}</p>
+    <p style="font-family:monotype corsiva;">Sunset : ${sunset}</p>
+    
+   
+    
+    
+
+  </div>
+</div>`
+result.innerHTML=html_data;
+    }
+</script>
+</html>
